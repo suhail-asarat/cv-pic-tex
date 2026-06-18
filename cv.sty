@@ -21,6 +21,7 @@
 \RequirePackage{ifthen}
 \RequirePackage{needspace} % Prevent page breaks after titles
 \RequirePackage{iftex}
+\RequirePackage{graphicx}
 
 % --- ATS Parsable PDF Setup ---
 \ifPDFTeX
@@ -57,7 +58,7 @@
 
 % --- Content Environments (Hidden from main file) ---
 \newenvironment{cvheader}{
-    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+    \setlength{\topsep}{0pt}\par\kern\topsep\raggedright\linespread{1.5}
 }{\par\kern\topsep}
 
 \renewcommand\labelitemi{$\circ$} % Custom bullet points
@@ -92,6 +93,10 @@
 % SEMANTIC DATA COMMANDS (To be used in cv.tex)
 % ==============================================================================
 
+% Profile Picture Variable Setup
+\newcommand{\cvpic}{}
+\newcommand{\cvProfilePic}[1]{\renewcommand{\cvpic}{#1}}
+
 % Header Variables
 \newcommand{\contactItem}[3]{%
     \mbox{\hrefWithoutArrow{#1}{\color{black}{\footnotesize #2}\hspace*{0.10cm}#3}}%
@@ -110,10 +115,16 @@
 
 \newcommand{\makeheader}[2]{
     \begin{cvheader}
-        \textbf{\fontsize{24 pt}{24 pt}\selectfont #1}
-        \vspace{0.3 cm}
-        
-        \fontsize{9.5}{11}\selectfont #2
+        \begin{minipage}[c]{\textwidth-3.5cm}
+            \raggedright
+            \textbf{\fontsize{24 pt}{24 pt}\selectfont #1}\\[0.3cm]
+            \fontsize{9.5}{11}\selectfont #2
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{3cm}
+            \raggedleft
+            \ifthenelse{\equal{\cvpic}{}}{}{\includegraphics[width=3cm]{\cvpic}}
+        \end{minipage}
     \end{cvheader}
     \vspace{0.2cm}
 }
